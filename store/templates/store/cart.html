@@ -32,6 +32,7 @@
                 <div style="flex:2"></div>
                 <div style="flex:2"><strong>Item</strong></div>
                 <div style="flex:1"><strong>Price</strong></div>
+                <div style="flex:1">&nbsp;</div>
                 <div style="flex:1"><strong>Quantity</strong></div>
                 <div style="flex:1"><strong>Total</strong></div>
             </div>
@@ -39,7 +40,7 @@
             {% for item in items %}
             <div class="cart-row">
                 <div style="flex:2">
-                    <class="row-image" src="{{item.product.imageURL}}">
+                    <img class="row-image" src="{{item.product.image.url}}" />
                 </div>
                 <div style="flex:2">
                     <p>{{item.product.name}}</p>
@@ -47,18 +48,19 @@
                 <div style="flex:1">
                     <p>${{item.product.price|floatformat:2}}</p>
                 </div>
+
+                <div style="flex:1" class="quantity">
+                    <img class="chg-quantity" src="{% static  'images/arrow-up.png' %}" />
+
+                    <img class="chg-quantity" src="{% static  'images/arrow-down.png' %}" />
+                </div>
                 <div style="flex:1">
                     <p>x{{item.quantity}}</p>
                 </div>
-                <div class="quantity">
-                    <img class="chg-quantity" src="{% static  'images/arrow-up.png' %}">
-
-                    <img class="chg-quantity" src="{% static  'images/arrow-down.png' %}">
-                </div>
+                <div style="flex:1">${{item.get_total}}</div>
             </div>
-            <div style="flex:1">${{item.get_total}}</div>
+            {% endfor %}
         </div>
-        {% endfor %}
     </div>
     </p{{item.product.name}}<>
     {% endblock content %}
