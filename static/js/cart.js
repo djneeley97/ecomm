@@ -2,7 +2,8 @@ var updateBtns = document.getElementsByClassName('update-cart')
 
 
 for (var i = 0; i < updateBtns.length; i++) {
-    updateBtns[i].addEventListener('click', function () {
+    updateBtns[i].addEventListener('click', function (e) {
+        e.preventDefault();
         var productId = this.dataset.product
         var action = this.dataset.action
         console.log('productId:', productId, 'action', action)
@@ -67,6 +68,5 @@ function updateUserOrder(productId, action, userId) {
         })
         .then((data) => {
             console.log('Data:', data)
-            location.reload()
         })
 }

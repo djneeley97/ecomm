@@ -18,20 +18,33 @@ def store(request):
 
 def cart(request):
 	
-	Data = cookieCart(request)
-	cartItems = Data['cartItems']
-	order = Data['order']
-	items = Data['items']
+	if request.user.is_authenticated:
+		customer = request.user.customer
+		order, created = Order.objects.get_or_create(customer=customer, complete=False)
+		items = order.orderitem_set.all()
+		cartItems = len(items)
+
+	else:
+		Data = cookieCart(request)
+		cartItems = Data['cartItems']
+		order = Data['order']
+		items = Data['items']
 
 	context = {'items':items, 'order':order, 'cartItems':cartItems}
 	return render(request, 'store/cart.html', context)
 
 def checkout(request):
-	
-	Data = cookieCart(request)
-	cartItems = Data['cartItems']
-	order = Data['order']
-	items = Data['items']
+	if request.user.is_authenticated:
+		customer = request.user.customer
+		order, created = Order.objects.get_or_create(customer=customer, complete=False)
+		items = order.orderitem_set.all()
+		cartItems = len(items)
+
+	else:
+		Data = cookieCart(request)
+		cartItems = Data['cartItems']
+		order = Data['order']
+		items = Data['items']
 
 
 	context = {'items':items, 'order':order, 'cartItems':cartItems}

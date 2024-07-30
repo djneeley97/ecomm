@@ -76,10 +76,10 @@
                 <div class="form-inline my-2 my-lg-0">
                     {% if user.is_authenticated %}
                     <label class="btn btn-outline-light">{{user.username}}</label>
-                    <a href="#" class="btn btn-warning">Logout</a>
+                    <a href="{% url 'login' %}" class="btn btn-warning">Logout</a>
                     <input id="hdnUserId" type="hidden" value="{{user.id}}">
                     {% else %}
-                    <a href="#" class="btn btn-warning">Login</a>
+                    <a href="{% url 'login' %}" class="btn btn-warning">Login</a>
                     <input id="hdnUserId" type="hidden" value="0">
                     {% endif %}
 
