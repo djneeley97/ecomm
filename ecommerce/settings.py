@@ -39,6 +39,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'store',
     #'store.apps.StoreConfig',
+    'register.apps.RegisterConfig',
+    'crispy_forms',
+    'crispy_bootstrap4',
 ]
 
 MIDDLEWARE = [
@@ -128,3 +131,7 @@ STATICFILES_DIRS = [
 MEDIA_URL = '/images/'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'static/images')
+
+LOGIN_REDIRECT_URL = "/"
+
+CRISPY_TEMPLATE_PACK="bootstrap4"

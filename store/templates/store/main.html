@@ -3,7 +3,7 @@
 <div>
 
     <head>
-        <title>Ecom</title>
+        <title>Yelnats</title>
 
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1" />
 
@@ -13,13 +13,14 @@
         <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
 
         <script type="text/javascript">
+            var user = '{{request.user}}'
 
-            function getCookie(name) {
-                let cookieValue = null;
+            function getToken(name) {
+                var cookieValue = null;
                 if (document.cookie && document.cookie !== '') {
-                    const cookies = document.cookie.split(';');
-                    for (let i = 0; i < cookies.length; i++) {
-                        const cookie = cookies[i].trim();
+                    var cookies = document.cookie.split(';');
+                    for (var i = 0; i < cookies.length; i++) {
+                        var cookie = cookies[i].trim();
                         // Does this cookie string begin with the name we want?
                         if (cookie.substring(0, name.length + 1) === (name + '=')) {
                             cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
@@ -29,14 +30,37 @@
                 }
                 return cookieValue;
             }
-            const csrftoken = getCookie('csrftoken');
+            var csrftoken = getToken('csrftoken')
+
+            function getCookie(name) {
+                var cookieArr = document.cookie.split(";");
+
+                for (var i = 0; i < cookieArr.length; i++) {
+                    var cookiePair = cookieArr[i].split("=");
+
+                    if (name == cookiePair[0].trim()) {
+                        return decodeURIComponent(cookiePair[1]);
+                    }
+                }
+                //Return null if not found
+                return null;
+            }
+
+
+            var cart = JSON.parse(getCookie('cart'))
+            if (cart == undefined) {
+                cart = {}
+                console.log('cart was created')
+                document.cookie = 'cart=' + JSON.stringify(cart) + ";domain=;path=/"
+            }
+            console.log('Cart:', cart)
         </script>
 
     </head>
 
     <body>
         <div class="navbar navbar-expand-lg navbar-dark bg-dark">
-            <a class="navbar-brand" href="{% url 'store' %}">Ecom</a>
+            <a class="navbar-brand" href="{% url 'store' %}">Yelnats</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
                 aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -53,15 +77,17 @@
                     {% if user.is_authenticated %}
                     <label class="btn btn-outline-light">{{user.username}}</label>
                     <a href="#" class="btn btn-warning">Logout</a>
+                    <input id="hdnUserId" type="hidden" value="{{user.id}}">
                     {% else %}
                     <a href="#" class="btn btn-warning">Login</a>
+                    <input id="hdnUserId" type="hidden" value="0">
                     {% endif %}
 
 
                     <a href="{% url 'cart' %}">
                         <img id="cart-icon" src="{% static 'images/cart.png' %}">
                     </a>
-                    <p id="cart-total">0</p>
+                    <p id="cart-total">{{cartItems}}</p>
 
                 </div>
             </div>
